@@ -7,6 +7,15 @@ pub struct SerX {
     pub server: String,
 }
 
+#[derive(Deserialize, Serialize)]
+pub struct GetResponse {
+    name: String,
+    category: (usize, String),
+    // giID -> (unit, cnt, name)
+    grocitems: HashMap<usize, (usize, usize, String)>,
+    //details: RecipeDetails,
+}
+
 impl SerX {
     fn get_cfgpath() -> Option<std::path::PathBuf> {
         // config file location = ~/.config/ze-gourm-db.toml
@@ -50,6 +59,17 @@ impl SerX {
         fq.insert("endpoint", "search");
         fq.insert("query", q);
         let resp: Vec<usize> = Client::new().post(&self.server)
+            .json(&fq)
+            .send()?
+            .json()?;
+        Ok(resp)
+    }
+
+    pub fn get(&self, id: usize) -> Result<GetResponse, failure::Error> {
+        let mut fq = HashMap::new();
+        fq.insert("endpoint", "get".to_string());
+        fq.insert("id", id.to_string());
+        let resp: GetResponse = Client::new().post(&self.server)
             .json(&fq)
             .send()?
             .json()?;
