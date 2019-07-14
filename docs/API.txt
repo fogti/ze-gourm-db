@@ -1,5 +1,10 @@
 - JSON based
 
+how to find a server:
+
+- look @ home folder of user --> file '~/.ze-gourm-db.toml', entry 'server'
+- ability to override server via enviroment variable 'ZE_GOURM_DB_SERVER'
+
 needed endpoints:
 
 - search (resolve search query -> recipe IDs)
