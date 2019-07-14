@@ -1,0 +1,13 @@
+# ex::
+
+name: alpha
+category: beta
+factor: 4 # (count of persons, not saved in the database)
+
+%groceries
+
+%making
+
+%notes
+
+%sources

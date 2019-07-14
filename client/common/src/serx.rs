@@ -13,7 +13,9 @@ pub struct GetResponse {
     category: (usize, String),
     // giID -> (unit, cnt, name)
     grocitems: HashMap<usize, (usize, usize, String)>,
-    //details: RecipeDetails,
+    making: Vec<String>,
+    notes: Vec<String>,
+    sources: Vec<String>,
 }
 
 impl SerX {
