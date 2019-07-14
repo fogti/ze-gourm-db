@@ -2,8 +2,10 @@
 
 how to find a server:
 
-- look @ home folder of user --> file '~/.ze-gourm-db.toml', entry 'server'
+- look @ home folder of user --> file '~/.config/ze-gourm-db.toml', entry 'server'
 - ability to override server via enviroment variable 'ZE_GOURM_DB_SERVER'
+- the server var is an URL (ex: http://example.com/kb/api.php)
+- data via POST
 
 needed endpoints:
 

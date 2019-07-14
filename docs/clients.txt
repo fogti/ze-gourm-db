@@ -1,8 +1,9 @@
 client-server-model, Server in PHP+Webserver, Clients in Rust.
 
-Gimmicks:
+Gimmicks (currently optional, but planned):
 - support for localization
 - support for dependencies on ingredients which have recipes themselves
+- there should be an editor for the config file
 
 Input format:
 - similiar to RPM-SPEC
