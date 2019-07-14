@@ -1,0 +1,13 @@
+- JSON based
+
+needed endpoints:
+
+- search (resolve search query -> recipe IDs)
+- upload
+  - with flags: overwrite (allow overwrite of recipe), force (ignore locks on recipe)
+  - with args: recipe id (optional), name, category, recipe data
+  - returns: recipe id (if not given as input, a new ID is allocated)
+- get
+  - with args: recipe id
+  - returns: recipe name, category, recipe data, metadata (grocery items + resolved dependencies)
+- list (returns all recipe IDs + recipe names + categories)

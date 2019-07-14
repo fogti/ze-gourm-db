@@ -1,0 +1,26 @@
+client-server-model, Server in PHP+Webserver, Clients in Rust.
+
+Gimmicks:
+- support for localization
+- support for dependencies on ingredients which have recipes themselves
+
+Input format:
+- similiar to RPM-SPEC
+
+Clients:
+- Input:
+  - input of one recipe at a time, input as "flowing text", with sections, with good error messages
+  - edit of one recipe at a time (given the recipe ID or name),
+    looks the recipe up (resolve search query -> ID),
+    downloads the recipe + metadata,
+    opens an editor ("nano" or something similiar, on a temporary file),
+    after the editors is closed, check if the recipe changed, upload if changed.
+
+- Output:
+  - LaTeX:
+    - prepared for cookbook
+      - one recipe at a time, two formats (standalone + integrate-able)
+      - boundled recipes, integrate-able
+    - boundled recipes, another variant (format needs research, optional, development currently stalled)
+  - grocery list
+  - combinations of the possibilities above...
