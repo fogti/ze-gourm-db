@@ -1,0 +1,21 @@
+Achtung: diese Datei ist meistens veraltet, im Vergleich zu './clients.txt'.
+
+# ok, neuer Anlauf:
+
+Client-Server-Modell, Server in PHP+Webserver, Clients in Rust.
+
+Eingabeformat:
+- ähnlich zu RPM-SPEC
+
+Clients:
+- Eingabe:
+  - Einzeleingabe, "omafreundlich", aber als Fließtext eingebbar (gute Fehlermeldungen!)
+  - Einzeleditierung, lädt Rezept runter, wandelt es in Eingabeformat um,
+    öffnet Editor, lädt es wieder hoch.
+
+- Ausgabe:
+  - tex, einzeln, für Kochbuch
+  - tex, gebündelt, für Kochbuch
+  - tex, gebündelt, für Segeln
+  - Einkaufsliste
+  - Kombinationen dieser...

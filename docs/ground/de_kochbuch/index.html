@@ -1,0 +1,67 @@
+<!doctype html>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<html>
+  <head>
+    <title>Rezeptformular</title>
+    <meta charset="ISO-8859-1"/>
+    <style>
+      .notediv {
+        float: right;
+        font-weight: bolder;
+      }
+      .noted {
+        clear: both;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="list.php">Zur Rezeptliste</a>
+    <h1>Rezeptformular</h1>
+    <form id="rezform" action="rezept.php" method="POST">
+      <label>Rezeptkategorie:
+        <select name="categ">
+          <option value="01_fisch">Fisch</option>
+          <option value="02_schweinefleisch">Schweinefleisch</option>
+          <option value="03_rindfleisch">Rindfleisch</option>
+          <option value="04_schaffleisch">Schaffleisch</option>
+          <option value="05_gefluegel">Gefl&uuml;gel</option>
+          <option value="06_kaninchen">Kaninchen</option>
+          <option value="07_gemuese">Gem&uuml;se</option>
+          <option value="08_sossen">So&szlig;en</option>
+          <option value="09_pasta">Pasta</option>
+          <option value="10_suppen">Suppen und Eint&ouml;pfe</option>
+          <option value="11_salat">Salat</option>
+          <option value="12_backen">Backen</option>
+          <option value="13_sontiges" selected="selected">Sonstiges</option>
+        </select>
+      </label>
+      <br />
+      <label>(Nr.)&nbsp;<input type="text" name="reztitle" value="Rezepttitel" /></label>
+      <br />
+      <p>Die unten genannten Zutaten sind f&uuml;r <input type="number" name="anzpers" required="required" /> Personen geeignet.</p>
+      <label for="zutaten">Zutaten:<br /></label>
+      <div class="notediv">Nur eine Zutat pro Zeile eingeben!</div>
+      <textarea id="zutaten" class="noted" name="zutaten" required="required" rows="4"></textarea>
+      <br />
+      <br />
+      <br />
+      <label for="zubereitung">Zubereitung:<br /></label>
+      <div class="notediv">Neue Zeile = neuer Absatz!</div>
+      <textarea id="zubereitung" class="noted" name="zubereitung" required="required" rows="10" style="width: 60%;"></textarea>
+      <br />
+      <br />
+      <br />
+      <label for="bemerkungen">Bemerkungen:<br /></label>
+      <div class="notediv">Neue Zeile = neuer Absatz!</div>
+      <textarea id="bemerkungen" class="noted" name="bemerkungen" rows="4" style="width: 60%;"></textarea>
+      <br />
+      <br />
+      <br />
+      <label for="quellen">Quellen:<br /></label>
+      <div class="notediv">Nur eine Quelle pro Zeile eingeben!</div>
+      <textarea id="quellen" class="noted" name="quellen" rows="4" style="width: 60%;"></textarea>
+      <hr />
+      <input type="submit" />
+    </form>
+  </body>
+</html>

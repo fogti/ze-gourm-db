@@ -1,0 +1,19 @@
+Datenbankname: kochbuch
+
+Tab: zutaten
+IDs: ZID EhID ZKID
+R:   name
+
+Tab: einheiten
+IDs: EhID
+R:   name
+
+Tab: zutkat
+IDs: ZKID
+R:   name
+
+# Abfrage alle Zutaten
+SELECT zt.ZID, zt.Zname, eh.EhName, zk.ZKname FROM zutaten zt INNER JOIN einheiten eh ON eh.EhID = zt.EhID INNER JOIN zutkat zk ON zk.ZKID = zt.ZKID
+
+# Berechtigungen
+GRANT ALL PRIVILEGES ON `kochbuch`.* TO 'web'@'localhost';
