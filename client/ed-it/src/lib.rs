@@ -2,8 +2,14 @@
 
 #[macro_use]
 extern crate failure;
+extern crate num;
+extern crate num_traits as _num_traits;
+#[macro_use]
+extern crate num_derive;
 extern crate phf;
 
+use std::collections::HashMap;
+use std::fmt;
 use std::io::{BufRead, BufReader, Read};
 use phf::phf_map;
 
@@ -22,18 +28,51 @@ pub struct Recipe {
     sources: Vec<String>,
 }
 
-#[derive(Copy, Clone, PartialEq)]
-enum RecipeLineType {
+impl fmt::Display for RecipeCategory {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            RecipeCategory::Custom(_, x) => write!(f, "{}", x),
+        }
+    }
+}
+
+#[derive(Copy, Clone, Hash, PartialEq, Eq, FromPrimitive)]
+pub enum RecipeLineType {
     // All misc lines
-    Normal,
+    Normal = 0,
     // single-line-values (K:V)
-    Name,
-    Category,
+    Name = 1,
+    Category = 2,
     // multi-line-section-headers (%K)
-    Groceries,
-    Making,
-    Notes,
-    Sources,
+    Groceries = 3,
+    Making = 4,
+    Notes = 5,
+    Sources = 6,
+}
+
+/// Yes, this is hacky, but we can't use phf_map because of some
+/// limitations of phf_derive
+/// (e.g.: "unsupported key expression")
+///
+/// WE NEED TO MANUALLY UPDATE THIS TO MATCH RecipeLineType from above!
+static DEFAULT_RSM_BOUNDS: std::ops::Range<i32> = 1..7;
+
+/// Important NOTE: this table must be manually synchonized to the
+/// type definition above.
+///
+/// This approach is probably relatively good,
+/// we get checks for 'non-exhaustive patterns',
+/// so we can't miss an update here
+fn get_default_rsm(x: RecipeLineType) -> &'static str {
+    macro_rules! helper {
+        ($($elem:ident),+) => {
+            match x {
+                RecipeLineType::Normal => "",
+                $(RecipeLineType::$elem => stringify!($elem),)+
+            }
+        }
+    }
+    helper!(Name, Category, Groceries, Making, Notes, Sources)
 }
 
 /// mappings : LocalizedString -> RecipeLineType
@@ -146,4 +185,52 @@ pub fn parse_recipe_from_file<FT: Read>(r: FT) -> Result<Recipe, failure::Error>
         }
     }
     Ok(ret)
+}
+
+type RSM<'a> = HashMap<RecipeLineType, &'a str>;
+
+impl Recipe {
+    fn rts_single(ret: &mut String, mappings: &RSM, part: &str, rlt: RecipeLineType) {
+        if !part.is_empty() {
+            *ret += mappings.get(&rlt).unwrap();
+            *ret += ": ";
+            *ret += part;
+            *ret += "\n";
+        }
+    }
+
+    fn rts_multiline(ret: &mut String, mappings: &RSM, part: &[String], rlt: RecipeLineType) {
+        if !part.is_empty() {
+            let sechead = mappings.get(&rlt).unwrap();
+            ret.reserve(sechead.len() + 3 + part.len() * 8);
+            *ret += "\n%";
+            *ret += sechead;
+            *ret += "\n";
+            for i in part {
+                *ret += i;
+                *ret += "\n";
+            }
+        }
+    }
+
+    pub fn to_string(&self, mut mappings: RSM) -> String {
+        let mut ret = String::new();
+        // make sure all required RLT are handled
+        for i in DEFAULT_RSM_BOUNDS.clone() {
+            let rlt: RecipeLineType = num::FromPrimitive::from_i32(i).unwrap();
+            mappings.entry(rlt).or_insert(get_default_rsm(rlt));
+        }
+        macro_rules! rtshelper {
+            ($fn:ident, $part:tt, $rlt:ident) => {
+                Self::$fn(&mut ret, &mappings, &self.$part, RecipeLineType::$rlt)
+            }
+        }
+        rtshelper!(rts_single, name, Name);
+        Self::rts_single(&mut ret, &mappings, &self.category.to_string(), RecipeLineType::Category);
+        rtshelper!(rts_multiline, groceries, Groceries);
+        rtshelper!(rts_multiline, making, Making);
+        rtshelper!(rts_multiline, notes, Notes);
+        rtshelper!(rts_multiline, sources, Sources);
+        ret
+    }
 }

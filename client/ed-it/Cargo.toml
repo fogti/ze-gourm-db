@@ -9,3 +9,6 @@ license = "MIT OR Apache-2.0"
 failure = "0.1.5"
 phf = { version = "0.7.24", features = ["macros"] }
 spawn-editor = "0.0"
+num = "0.2.0"
+num-derive = "0.2.5"
+num-traits = "0.2.8"
