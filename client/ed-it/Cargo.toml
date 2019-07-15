@@ -1,0 +1,11 @@
+[package]
+name = "ed-it"
+version = "0.0.0"
+authors = ["Erik Zscheile <erik.zscheile@gmail.com>"]
+edition = "2018"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+failure = "0.1.5"
+phf = { version = "0.7.24", features = ["macros"] }
+spawn-editor = "0.0"
