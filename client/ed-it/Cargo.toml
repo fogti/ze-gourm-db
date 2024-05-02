@@ -1,7 +1,7 @@
 [package]
 name = "ed-it"
 version = "0.0.0"
-authors = ["Erik Zscheile <erik.zscheile@gmail.com>"]
+authors = ["Alain Zscheile <fogti+devel@ytrizja.de>"]
 edition = "2018"
 license = "MIT OR Apache-2.0"
 
